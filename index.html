@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<title>Admin Dashboard</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style>
+			html {
+				height: 100%;
+				box-sizing: border-box;
+			}
+			*,
+			*::before,
+			*::after {
+				box-sizing: inherit;
+			}
+			body {
+				line-height: 1.5;
+				font-family: "Roboto", sans-serif;
+				min-height: 100vh;
+			}
+			input[type="search"]::-webkit-search-decoration,
+			input[type="search"]::-webkit-search-cancel-button,
+			input[type="search"]::-webkit-search-results-button,
+			input[type="search"]::-webkit-search-results-decoration {
+				-webkit-appearance: none;
+			}
+			.vibrate {
+				animation: vibrate 800ms infinite ease-in-out alternate forwards;
+			}
+			@media (max-width: 1279px) {
+				@keyframes vibrate {
+					0% {
+						transform: translateX(4px);
+					}
+					100% {
+						transform: translateX(-4px);
+					}
+				}
+				.sidebarOpen {
+					transform: translateX(0%);
+				}
+				.sidebarClose {
+					transform: translateX(-100%);
+				}
+				.sidebarClose button {
+					transform: rotate(180deg);
+					border-radius: 8px;
+				}
+				.sidebarOpen button {
+					transform: rotate(0deg);
+					border-radius: 0px 8px 8px 0px;
+				}
+			}
+		</style>
+	</head>
+	<body class="bg-slate-200 grid grid-cols-1 xl:grid-cols-[300px_1fr]">
+		<aside class="fixed sidebarClose duration-200 ease-in-out xl:static inset-y-0 min-w-[300px] bg-sky-600 pl-4 pt-4 flex flex-col gap-20">
+			<!-- toggle sidebar button -->
+			<button
+				data-action="toggleSidebar"
+				class="duration-200 ease-in-out absolute bg-sky-700 rounded-[0_8px_8px_0] w-16 grid place-items-center aspect-square top-1/2 -translate-y-1/2 left-full xl:hidden"
+			>
+				<div class="w-10 fill-white absolute vibrate">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+					>
+						<path d="M11.92,19.92L4,12L11.92,4.08L13.33,5.5L7.83,11H22V13H7.83L13.34,18.5L11.92,19.92M4,12V2H2V22H4V12Z" />
+					</svg>
+				</div>
+			</button>
+			<div class="text-white fill-white flex items-center gap-4 text-3xl font-bold">
+				<div class="shrink-0 w-12">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						class="block w-full"
+					>
+						<path
+							d="M13 11H19.95Q19.58 8.25 17.66 6.34 15.75 4.43 13 4.05M11 19.95V4.05Q8 4.43 6 6.69 4 8.95 4 12T6 17.31Q8 19.58 11 19.95M13 19.95Q15.75 19.6 17.68 17.68 19.6 15.75 19.95 13H13M12 12M12 22Q9.93 22 8.1 21.21 6.28 20.43 4.93 19.08 3.58 17.73 2.79 15.9 2 14.08 2 12T2.79 8.1Q3.58 6.28 4.93 4.93 6.28 3.58 8.1 2.79 9.93 2 12 2T15.89 2.79Q17.7 3.58 19.06 4.94 20.43 6.3 21.21 8.11 22 9.93 22 12 22 14.05 21.21 15.88 20.43 17.7 19.08 19.06 17.73 20.43 15.9 21.21 14.08 22 12 22Z"
+						/>
+					</svg>
+				</div>
+				<span>Dashboard</span>
+			</div>
+			<ul
+				class="font-bold text-xl flex flex-col gap-4"
+				data-list="navListOne"
+			></ul>
+			<ul
+				class="font-bold text-xl flex flex-col gap-4"
+				data-list="navListTwo"
+			></ul>
+		</aside>
+		<main>
+			<div class="bg-white shadow-lg shadow-slate-400/30 p-4 px-8 space-y-6">
+				<div class="flex flex-col md:flex-row items-stretch md:items-center gap-x-20 gap-y-4 flex-wrap">
+					<div class="flex items-center md: gap-4 flex-1 order-1 md:order-[0]">
+						<div class="w-6 cursor-pointer">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								class="w-full"
+							>
+								<path
+									d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+								/>
+							</svg>
+						</div>
+						<input
+							type="search"
+							class="w-full bg-slate-300 rounded-full px-4 py-1"
+						/>
+					</div>
+					<div class="flex items-center gap-6 self-center md:self-auto">
+						<div class="w-6 cursor-pointer">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-full"
+								viewBox="0 0 24 24"
+							>
+								<path
+									d="M10,21H14A2,2 0 0,1 12,23A2,2 0 0,1 10,21M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M17,11A5,5 0 0,0 12,6A5,5 0 0,0 7,11V18H17V11M19.75,3.19L18.33,4.61C20.04,6.3 21,8.6 21,11H23C23,8.07 21.84,5.25 19.75,3.19M1,11H3C3,8.6 3.96,6.3 5.67,4.61L4.25,3.19C2.16,5.25 1,8.07 1,11Z"
+								/>
+							</svg>
+						</div>
+						<div class="font-bold flex items-center gap-6">
+							<div class="w-10">
+								<img
+									src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+									alt=""
+								/>
+							</div>
+							<span>Morgan Oakley</span>
+						</div>
+					</div>
+				</div>
+				<div class="flex items-center justify-center gap-0 sm:gap-6 md:gap-0 md:justify-between">
+					<div class="flex items-center gap-4 font-bold">
+						<div class="w-16">
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+								alt=""
+							/>
+						</div>
+						<span class="">
+							<small>Hi there,</small><br />
+							<span class="text-xl">Morgan Oakley(@morgan)</span>
+						</span>
+					</div>
+					<div class="flex flex-col md:flex-row items-center gap-6">
+						<button class="text-white bg-sky-600 px-8 py-2 rounded-full font-bold">New</button>
+						<button class="text-white bg-sky-600 px-8 py-2 rounded-full font-bold">Upload</button>
+						<button class="text-white bg-sky-600 px-8 py-2 rounded-full font-bold">Share</button>
+					</div>
+				</div>
+			</div>
+			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[2fr_1fr] grid-rows-[1fr_auto] md:grid-rows-2 mt-6 pr-6 pl-6 lg:pr-0 gap-6">
+				<section class="col-start-1 row-start-1 md:row-span-2">
+					<h2 class="font-bold text-xl">Your Projects</h2>
+					<div class="mt-4 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] auto-rows-[240px] gap-8">
+						<article class="bg-white shadow shadow-lg shadow-slate-400/30 rounded-md p-6 border-l-8 border-orange-400 flex flex-col justify-between">
+							<div>
+								<h3 class="font-bold text-lg">Super Cool Project</h3>
+								<p class="leading-[1.2] text-slate-600">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi harum amet. Rerum quis optio sint, deleniti architecto nisi.</p>
+							</div>
+							<div class="flex items-center gap-4 justify-end">
+								<button
+									data-action="addToFavorites"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="view"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,18.14 13.04,17.78 13.1,17.42C12.74,17.46 12.37,17.5 12,17.5C8.24,17.5 4.83,15.36 3.18,12C4.83,8.64 8.24,6.5 12,6.5C15.76,6.5 19.17,8.64 20.82,12C20.7,12.24 20.56,12.45 20.43,12.68C21.09,12.84 21.72,13.11 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="sourceBranch"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z"
+											/>
+										</svg>
+									</div>
+								</button>
+							</div>
+						</article>
+						<article class="bg-white shadow shadow-lg shadow-slate-400/30 rounded-md p-6 border-l-8 border-orange-400 flex flex-col justify-between">
+							<div>
+								<h3 class="font-bold text-lg">Less Cool Project</h3>
+								<p class="leading-[1.2] text-slate-600">
+									Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, eveniet!Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi harum amet. Rerum quis optio
+									sint, deleniti architecto nisi.
+								</p>
+							</div>
+							<div class="flex items-center gap-4 justify-end">
+								<button
+									data-action="addToFavorites"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="view"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,18.14 13.04,17.78 13.1,17.42C12.74,17.46 12.37,17.5 12,17.5C8.24,17.5 4.83,15.36 3.18,12C4.83,8.64 8.24,6.5 12,6.5C15.76,6.5 19.17,8.64 20.82,12C20.7,12.24 20.56,12.45 20.43,12.68C21.09,12.84 21.72,13.11 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="sourceBranch"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z"
+											/>
+										</svg>
+									</div>
+								</button>
+							</div>
+						</article>
+						<article class="bg-white shadow shadow-lg shadow-slate-400/30 rounded-md p-6 border-l-8 border-orange-400 flex flex-col justify-between">
+							<div>
+								<h3 class="font-bold text-lg">Impossible App</h3>
+								<p class="leading-[1.2] text-slate-600">Excepturi harum amet. Rerum quis optio sint, deleniti architecto nisi.</p>
+							</div>
+							<div class="flex items-center gap-4 justify-end">
+								<button
+									data-action="addToFavorites"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="view"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,18.14 13.04,17.78 13.1,17.42C12.74,17.46 12.37,17.5 12,17.5C8.24,17.5 4.83,15.36 3.18,12C4.83,8.64 8.24,6.5 12,6.5C15.76,6.5 19.17,8.64 20.82,12C20.7,12.24 20.56,12.45 20.43,12.68C21.09,12.84 21.72,13.11 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="sourceBranch"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z"
+											/>
+										</svg>
+									</div>
+								</button>
+							</div>
+						</article>
+						<article class="bg-white shadow shadow-lg shadow-slate-400/30 rounded-md p-6 border-l-8 border-orange-400 flex flex-col justify-between">
+							<div>
+								<h3 class="font-bold text-lg">Super Cool Project</h3>
+								<p class="leading-[1.2] text-slate-600">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi harum amet. Rerum quis optio sint, deleniti architecto nisi.</p>
+							</div>
+							<div class="flex items-center gap-4 justify-end">
+								<button
+									data-action="addToFavorites"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="view"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,18.14 13.04,17.78 13.1,17.42C12.74,17.46 12.37,17.5 12,17.5C8.24,17.5 4.83,15.36 3.18,12C4.83,8.64 8.24,6.5 12,6.5C15.76,6.5 19.17,8.64 20.82,12C20.7,12.24 20.56,12.45 20.43,12.68C21.09,12.84 21.72,13.11 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="sourceBranch"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z"
+											/>
+										</svg>
+									</div>
+								</button>
+							</div>
+						</article>
+						<article class="bg-white shadow shadow-lg shadow-slate-400/30 rounded-md p-6 border-l-8 border-orange-400 flex flex-col justify-between">
+							<div>
+								<h3 class="font-bold text-lg">Less Cool Project</h3>
+								<p class="leading-[1.2] text-slate-600">
+									Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, eveniet!Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi harum amet. Rerum quis optio
+									sint, deleniti architecto nisi.
+								</p>
+							</div>
+							<div class="flex items-center gap-4 justify-end">
+								<button
+									data-action="addToFavorites"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="view"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,18.14 13.04,17.78 13.1,17.42C12.74,17.46 12.37,17.5 12,17.5C8.24,17.5 4.83,15.36 3.18,12C4.83,8.64 8.24,6.5 12,6.5C15.76,6.5 19.17,8.64 20.82,12C20.7,12.24 20.56,12.45 20.43,12.68C21.09,12.84 21.72,13.11 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="sourceBranch"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z"
+											/>
+										</svg>
+									</div>
+								</button>
+							</div>
+						</article>
+						<article class="bg-white shadow shadow-lg shadow-slate-400/30 rounded-md p-6 border-l-8 border-orange-400 flex flex-col justify-between">
+							<div>
+								<h3 class="font-bold text-lg">Impossible App</h3>
+								<p class="leading-[1.2] text-slate-600">Excepturi harum amet. Rerum quis optio sint, deleniti architecto nisi.</p>
+							</div>
+							<div class="flex items-center gap-4 justify-end">
+								<button
+									data-action="addToFavorites"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="view"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,18.14 13.04,17.78 13.1,17.42C12.74,17.46 12.37,17.5 12,17.5C8.24,17.5 4.83,15.36 3.18,12C4.83,8.64 8.24,6.5 12,6.5C15.76,6.5 19.17,8.64 20.82,12C20.7,12.24 20.56,12.45 20.43,12.68C21.09,12.84 21.72,13.11 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z"
+											/>
+										</svg>
+									</div>
+								</button>
+								<button
+									data-action="sourceBranch"
+									class="block p-2 pb-0"
+								>
+									<div class="w-6">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+										>
+											<path
+												d="M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z"
+											/>
+										</svg>
+									</div>
+								</button>
+							</div>
+						</article>
+					</div>
+				</section>
+				<section class="md:col-start-2 self-end">
+					<h2 class="font-bold text-xl">Announcements</h2>
+					<div class="bg-white p-8 mt-4 rounded-lg shadow-lg shadow-slate-400/30">
+						<ul>
+							<li class="[&:first-child]:pb-4 [&:last-child]:pt-4 [&:not(:first-child):not(:last-child)]:py-4 [&:not(:last-child)]:border-b-2">
+								<h4 class="font-bold">Site Maintenance</h4>
+								<p class="leading-[1.2] text-slate-600 text-sm">
+									Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit. sicing elit. uisquam dicta natus vel in error nobis voluptas quo? Quis.
+								</p>
+							</li>
+							<li class="[&:first-child]:pb-4 [&:last-child]:pt-4 [&:not(:first-child):not(:last-child)]:py-4 [&:not(:last-child)]:border-b-2">
+								<h4 class="font-bold">Community Share Day</h4>
+								<p class="leading-[1.2] text-slate-600 text-sm">
+									Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit. sicing elit. uisquam dicta natus vel in error nobis voluptas quo? Quis.
+								</p>
+							</li>
+							<li class="[&:first-child]:pb-4 [&:last-child]:pt-4 [&:not(:first-child):not(:last-child)]:py-4 [&:not(:last-child)]:border-b-2">
+								<h4 class="font-bold">Updated Privacy Policy</h4>
+								<p class="leading-[1.2] text-slate-600 text-sm">
+									Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit. sicing elit. uisquam dicta natus vel in error nobis voluptas quo? Quis.
+								</p>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="md:col-start-2 row-start-2">
+					<h2 class="font-bold text-xl">Trending</h2>
+					<div class="bg-white p-6 mt-4 rounded-lg shadow-lg shadow-slate-400/30">
+						<ul class="space-y-6">
+							<li class="flex items-center gap-4">
+								<div class="w-12 rounded-full overflow-hidden">
+									<img
+										class="object-cover object-center"
+										src="https://source.unsplash.com/200x200/?portrait"
+										alt=""
+									/>
+								</div>
+								<div class="text-sm"><span>@tegan</span><br /><span class="text-slate-700">World Peace Builder</span></div>
+							</li>
+							<li class="flex items-center gap-4">
+								<div class="w-12 rounded-full overflow-hidden">
+									<img
+										class="object-cover object-center"
+										src="https://source.unsplash.com/200x200/?portrait?id=3"
+										alt=""
+									/>
+								</div>
+								<div class="text-sm"><span>@morgan</span><br /><span class="text-slate-700">Super Cool Project</span></div>
+							</li>
+							<li class="flex items-center gap-4">
+								<div class="w-12 rounded-full overflow-hidden">
+									<img
+										class="object-cover object-center"
+										src="https://source.unsplash.com/200x200/?portrait?id=2"
+										alt=""
+									/>
+								</div>
+								<div class="text-sm"><span>@alex</span><br /><span class="text-slate-700">No Traffic Maker</span></div>
+							</li>
+							<li class="flex items-center gap-4">
+								<div class="w-12 rounded-full overflow-hidden">
+									<img
+										class="object-cover object-center"
+										src="https://source.unsplash.com/200x200/?portrait?id=1"
+										alt=""
+									/>
+								</div>
+								<div class="text-sm"><span>@kendall</span><br /><span class="text-slate-700">Life Changing App</span></div>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</div>
+		</main>
+		<script src="script.js"></script>
+	</body>
+</html>
